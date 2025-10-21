@@ -1,15 +1,98 @@
-# Elysia with Bun runtime
+# Sockets Galaxy API
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
+WebSocket сервер для интерактивной галактики звёзд, построенный на Elysia и Bun.
+
+## Технологии
+
+- **Bun** - JavaScript runtime и пакетный менеджер
+- **Elysia** - быстрый веб-фреймворк для Bun
+- **WebSockets** - для real-time коммуникации
+- **TypeScript** - строгая типизация
+
+## Функциональность
+
+### WebSocket API
+- **Endpoint**: `/ws`
+- **Протокол**: JSON сообщения с каналами
+- **Функции**:
+  - Создание и управление звёздами в галактике
+  - Real-time синхронизация между клиентами
+  - Автоматическое назначение цветов клиентам
+  - Подписка на каналы для группового взаимодействия
+
+### Структура сообщений
+```typescript
+{
+    channel: string,    // канал для сообщения
+    payload: any       // данные сообщения
+}
 ```
 
-## Development
-To start the development server run:
-```bash
-bun run dev
+### Типы звёзд
+```typescript
+interface Star
+{
+    id: string;      // уникальный идентификатор
+    x: number;       // координата X
+    y: number;       // координата Y  
+    color: string;   // цвет в формате OKLCH
+}
 ```
 
-Open http://localhost:3000/ with your browser to see the result.
+## Установка и запуск
+
+### Требования
+- Bun >= 1.0
+
+### Установка зависимостей
+```bash
+bun install
+```
+
+### Запуск в режиме разработки
+```bash
+bun dev
+```
+
+### Запуск на кастомном порту
+```bash
+bun dev --port 4200
+```
+
+## API Endpoints
+
+### HTTP
+- `GET /` - проверка работоспособности сервера
+
+### WebSocket
+- `WS /ws` - подключение к WebSocket серверу
+
+## Архитектура
+
+```
+src/
+├── index.ts        # точка входа и настройка сервера
+├── webSockets.ts   # WebSocket логика и обработчики
+└── colors.ts       # генерация случайных цветов
+```
+
+## Docker
+
+Проект включает Dockerfile для контейнеризации:
+
+```bash
+docker build -t sockets-galaxy-api .
+docker run -p 3000:3000 sockets-galaxy-api
+```
+
+## Разработка
+
+### Структура проекта
+- Модульная архитектура с разделением WebSocket логики
+- Типизированные интерфейсы для всех данных
+- Автоматическая перезагрузка в режиме разработки
+
+### Конфигурация
+- TypeScript конфигурация в `tsconfig.json`
+- Поддержка ES модулей
+- Строгая типизация включена
